@@ -54,12 +54,20 @@ public class LikeService {
     }
 
     // Récuperer les IDs des cocktails aimés
-    public List<Cocktail> getLikedCocktailIds() {
+    public List<Long> getLikedCocktailIds() {
         List<Like> likes = likeRepository.findAll();
         return likes.stream()
-            .map(Like::getCocktail)
-            .collect(Collectors.toList());
+                .map(like -> like.getCocktail().getId())
+                .collect(Collectors.toList());
     }
+
+        // Récupérer tous les cocktails aimés
+        public List<Cocktail> getLikedCocktails() {
+            List<Like> likes = likeRepository.findAll();
+            return likes.stream()
+                    .map(Like::getCocktail)
+                    .collect(Collectors.toList());
+        }
 
         // Compter les likes d'un cocktail
         public long getLikeCount(Long cocktailId) {

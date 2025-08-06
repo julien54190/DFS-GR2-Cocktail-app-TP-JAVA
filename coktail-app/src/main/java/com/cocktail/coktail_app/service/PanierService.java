@@ -28,14 +28,25 @@ public class PanierService {
         return new ArrayList<>();
     }
     // Ajouter un ingredient au panier
-    public void addIngredients(List<String> newIngredients) {
-        List<String> currentIngredients = new ArrayList<>(getCurrentIngredients());
-        currentIngredients.addAll(newIngredients);
-
-        //creer un nouveau panier avec les ingredients mis a jour
-        Panier newPanier = new Panier(currentIngredients);
-        panierRepository.save(newPanier);
+    public void addIngredient(String ingredient) {
+        List<String> ingredients = new ArrayList<>();
+        ingredients.add(ingredient);
+        addIngredients(ingredients);
     }
+
+    // Ajouter plusieurs ingredients au panier
+    public void addIngredients(List<String> ingredients) {
+        List<String> currentIngredients = new ArrayList<>(getCurrentIngredients());
+        currentIngredients.addAll(ingredients);
+
+        Panier updatedPanier = new Panier(currentIngredients);
+        panierRepository.save(updatedPanier);
+    }
+
+    //     //creer un nouveau panier avec les ingredients mis a jour
+    //     Panier newPanier = new Panier(currentIngredients);
+    //     panierRepository.save(newPanier);
+    // }
 
         // Vider le panier
         public void clearPanier() {
