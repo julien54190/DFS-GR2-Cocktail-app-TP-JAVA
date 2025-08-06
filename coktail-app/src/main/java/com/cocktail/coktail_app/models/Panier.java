@@ -38,6 +38,10 @@ public class Panier {
         this.ingredients = ingredients;
     }
 
+    public Panier(Object object) {
+        //TODO Auto-generated constructor stub
+    }
+
     public Long getId() {
         return id;
     }
