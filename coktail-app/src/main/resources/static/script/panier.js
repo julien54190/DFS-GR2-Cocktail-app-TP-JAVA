@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fonction pour supprimer un ingrédient du panier
     window.removeFromPanier = async function(ingredient) {
         try {
-            const response = await fetch(`/api/panier/remove/${encodeURIComponent(ingredient)}`, {
+            const response = await fetch(`/api/panier/ingredient/${encodeURIComponent(ingredient)}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -13,15 +13,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok) {
                 // Supprimer l'élément de la liste avec animation
-                const ingredientItem = document.querySelector(`[data-ingredient="${ingredient}"]`);
-                if (ingredientItem) {
-                    ingredientItem.style.opacity = '0';
-                    ingredientItem.style.transform = 'translateX(-20px)';
-                    setTimeout(() => {
-                        ingredientItem.remove();
-                        updatePanierDisplay();
-                    }, 300);
-                }
+                const ingredientItems = document.querySelectorAll('.flex.justify-content-between');
+                ingredientItems.forEach(item => {
+                    const ingredientName = item.querySelector('.text-bold').textContent;
+                    if (ingredientName === ingredient) {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateX(-20px)';
+                        setTimeout(() => {
+                            item.remove();
+                            updatePanierDisplay();
+                        }, 300);
+                    }
+                });
                 
                 showNotification('Ingrédient retiré du panier', 'info');
             }
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fonction pour exporter la liste
     window.exportPanier = function() {
-        const ingredients = Array.from(document.querySelectorAll('.ingredient-name'))
+        const ingredients = Array.from(document.querySelectorAll('.text-bold'))
             .map(item => item.textContent);
         
         if (ingredients.length === 0) {
@@ -84,28 +87,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fonction pour mettre à jour l'affichage du panier
     function updatePanierDisplay() {
-        const ingredientsList = document.querySelector('.ingredients-list');
-        const remainingItems = ingredientsList.querySelectorAll('.ingredient-item');
+        const remainingItems = document.querySelectorAll('.flex.justify-content-between');
         
         if (remainingItems.length === 0) {
-            // Afficher l'état vide
-            const panierContent = document.querySelector('.panier-content');
-            panierContent.innerHTML = `
-                <div class="empty-likes">
-                    <div class="empty-likes-icon">🛒</div>
-                    <h2>Panier vide</h2>
-                    <p>Votre panier ne contient aucun ingrédient</p>
-                    <button class="btn btn-primary" onclick="window.location.href='/'">
-                        Découvrir des cocktails
-                    </button>
-                </div>
-            `;
+            // Recharger la page pour afficher l'état vide
+            window.location.reload();
         } else {
-            // Mettre à jour le compteur
-            const countElement = document.querySelector('.panier-count-text span');
-            if (countElement) {
-                countElement.textContent = remainingItems.length;
-            }
+            // Mettre à jour le compteur dans la navigation
+            const countElements = document.querySelectorAll('.panier-count');
+            countElements.forEach(element => {
+                element.textContent = remainingItems.length;
+            });
         }
     }
     
@@ -124,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Animation d'entrée pour les éléments du panier
-    const ingredientItems = document.querySelectorAll('.ingredient-item');
+    const ingredientItems = document.querySelectorAll('.flex.justify-content-between');
     ingredientItems.forEach((item, index) => {
         item.style.opacity = '0';
         item.style.transform = 'translateX(-20px)';
@@ -136,9 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
     
-    // Ajouter les attributs data-ingredient pour la suppression
-    ingredientItems.forEach(item => {
-        const ingredientName = item.querySelector('.ingredient-name').textContent;
-        item.setAttribute('data-ingredient', ingredientName);
+    // Ajouter les événements de clic pour les boutons de suppression
+    const removeButtons = document.querySelectorAll('.remove-ingredient-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const ingredient = this.getAttribute('data-ingredient');
+            removeFromPanier(ingredient);
+        });
     });
 }); 

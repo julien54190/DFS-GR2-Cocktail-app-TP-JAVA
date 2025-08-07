@@ -1,5 +1,6 @@
 package com.cocktail.coktail_app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,10 +89,26 @@ public class WebController {
     @GetMapping("/panier")
     public String panier(Model model) {
         System.out.println("=== WebController.panier() appelé ===");
-        List<String> ingredients = panierService.getCurrentIngredients();
-        model.addAttribute("ingredients", ingredients);
-        model.addAttribute("ingredientCount", ingredients.size());
-        return "panier";
+        
+        try {
+            List<String> ingredients = panierService.getCurrentIngredients();
+            System.out.println("=== Ingrédients récupérés: " + ingredients + " ===");
+            
+            model.addAttribute("ingredients", ingredients);
+            model.addAttribute("ingredientCount", ingredients.size());
+            
+            System.out.println("=== Page panier rendue avec succès ===");
+            return "panier";
+            
+        } catch (Exception e) {
+            System.out.println("=== Erreur dans panier(): " + e.getMessage() + " ===");
+            e.printStackTrace();
+            
+            // En cas d'erreur, retourner une page avec des données vides
+            model.addAttribute("ingredients", new ArrayList<String>());
+            model.addAttribute("ingredientCount", 0);
+            return "panier";
+        }
     }
     
     // Page des cocktails likés

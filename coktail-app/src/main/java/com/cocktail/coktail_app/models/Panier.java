@@ -28,18 +28,21 @@ public class Panier {
     @Column(name = "date_creation")
     private LocalDateTime dateCreation;
 
+    public Panier() {
+        this.dateCreation = LocalDateTime.now();
+    }
 
-
+    public Panier(List<String> ingredients) {
+        this.ingredients = ingredients;
+        this.dateCreation = LocalDateTime.now();
+    }
 
     // genenerer avec les outils de génération de code de spring boot
 
     public Panier(LocalDateTime dateCreation, Long id, List<String> ingredients) {
         this.id = id;
         this.ingredients = ingredients;
-    }
-
-    public Panier(Object object) {
-        //TODO Auto-generated constructor stub
+        this.dateCreation = dateCreation;
     }
 
     public Long getId() {

@@ -56,8 +56,36 @@ public class PanierController {
     // Supprimer un ingrédient spécifique
     @DeleteMapping("/ingredient/{ingredient}")
     public ResponseEntity<String> removeIngredient(@PathVariable String ingredient) {
-        panierService.removeIngredient(ingredient);
-        return ResponseEntity.ok("Ingrédient supprimé du panier");
+        System.out.println("=== PanierController.removeIngredient() appelé avec ingredient: " + ingredient + " ===");
+        
+        try {
+            panierService.removeIngredient(ingredient);
+            System.out.println("=== Ingrédient supprimé avec succès ===");
+            return ResponseEntity.ok("Ingrédient supprimé du panier");
+        } catch (Exception e) {
+            System.out.println("=== Erreur lors de la suppression: " + e.getMessage() + " ===");
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Erreur lors de la suppression");
+        }
+    }
+    
+    // Ajouter les ingrédients d'un cocktail au panier
+    @PostMapping("/add/{cocktailId}")
+    public ResponseEntity<String> addCocktailToPanier(@PathVariable Long cocktailId) {
+        System.out.println("=== PanierController.addCocktailToPanier() appelé avec cocktailId: " + cocktailId + " ===");
+        
+        boolean success = panierService.addCocktailIngredients(cocktailId);
+        if (success) {
+            return ResponseEntity.ok("Cocktail ajouté au panier");
+        }
+        return ResponseEntity.badRequest().body("Impossible d'ajouter le cocktail au panier");
+    }
+    
+    // Compter les ingrédients dans le panier
+    @GetMapping("/count")
+    public ResponseEntity<String> getPanierCount() {
+        int count = panierService.getCurrentIngredients().size();
+        return ResponseEntity.ok(String.valueOf(count));
     }
     
 

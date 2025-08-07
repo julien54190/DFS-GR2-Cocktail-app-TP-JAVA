@@ -39,8 +39,8 @@
             <div class="flex flex-col gap-12 mb-20">
                 <div th:each="ingredient : ${ingredients}" class="flex justify-content-between align-items-center p-12 bkg-light radius">
                     <span class="text-bold" th:text="${ingredient}">Ingrédient</span>
-                    <button class="btn btn-danger" 
-                            th:onclick="'removeFromPanier(\'' + ${ingredient} + '\')'">
+                    <button class="btn btn-danger remove-ingredient-btn" 
+                            th:data-ingredient="${ingredient}">
                         ❌ Supprimer
                     </button>
                 </div>
