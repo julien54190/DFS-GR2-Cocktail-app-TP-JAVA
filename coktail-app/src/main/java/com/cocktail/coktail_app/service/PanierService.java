@@ -18,7 +18,7 @@ public class PanierService {
 
     // Recuperer le panier 
     public List<String> getCurrentIngredients() {
-        Panier currentPanier = panierRepository.FindFirstByOrderByDateCreationDesc();
+        Panier currentPanier = panierRepository.findFirstByOrderByDateCreationDesc();
         if (currentPanier != null) {
             List<String> ingredients = currentPanier.getIngredients();
             return ingredients.stream()

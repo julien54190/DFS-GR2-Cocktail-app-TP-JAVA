@@ -14,6 +14,6 @@ public interface CocktailRepository extends JpaRepository<Cocktail, Long> {
 
     List<Cocktail> findAllByOrderByNameAsc();
 
-    List<Cocktail> FindAllByOrderDateCreationDesc();
+    List<Cocktail> findAllByOrderByDateCreationDesc();
 
 }

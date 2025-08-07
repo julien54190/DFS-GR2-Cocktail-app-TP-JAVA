@@ -27,7 +27,7 @@ public class LikeService {
         if (optionalCocktail.isPresent()) {
             Cocktail cocktail = optionalCocktail.get();
 
-            Optional<Like> existingLike = likeRepository.FindByCocktailId(cocktailId);
+            Optional<Like> existingLike = likeRepository.findByCocktail_Id(cocktailId);
             if (existingLike.isPresent()) {
                 return false;
             }
@@ -40,7 +40,7 @@ public class LikeService {
 
     // Supprimer un like d'un cocktail
     public boolean unlikeCocktail(Long cocktailId) {
-        Optional<Like> optionalLike = likeRepository.FindByCocktailId(cocktailId);
+        Optional<Like> optionalLike = likeRepository.findByCocktail_Id(cocktailId);
         if (optionalLike.isPresent()) {
             likeRepository.delete(optionalLike.get());
             return true;
@@ -50,7 +50,7 @@ public class LikeService {
 
     // Vérifier si un cocktail est aimé
     public boolean isCocktailLiked(Long cocktailId) {
-        return likeRepository.FindByCocktailId(cocktailId).isPresent();
+        return likeRepository.findByCocktail_Id(cocktailId).isPresent();
     }
 
     // Récuperer les IDs des cocktails aimés

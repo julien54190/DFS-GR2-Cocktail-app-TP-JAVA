@@ -6,15 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cocktail.coktail_app.models.Cocktail;
 import com.cocktail.coktail_app.service.CocktailService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -49,7 +51,7 @@ public class CocktailController {
     }
 
     // Mettre a jour un cocktail
-    @PostMapping("/{id:\\d+}")
+    @PutMapping("/{id:\\d+}")
     public ResponseEntity<Cocktail> updateCocktail(@PathVariable Long id, @RequestBody Cocktail cocktailDetails) {
         Cocktail updateCocktail = cocktailService.updateCocktail(id, cocktailDetails);
         if (updateCocktail != null) {
@@ -58,7 +60,7 @@ public class CocktailController {
         return ResponseEntity.notFound().build();
     }
     // Supprimer un cocktail
-    @PostMapping("/{id:\\d+}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> deleteCocktail(@PathVariable Long id) {
         boolean isDeleted = cocktailService.deleteCocktail(id);
         if (isDeleted) {

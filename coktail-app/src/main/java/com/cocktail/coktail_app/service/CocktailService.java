@@ -20,7 +20,7 @@ public class CocktailService {
 
     // Recuperation des cocktails
     public List<Cocktail> getAllCocktails() {
-        return cocktailRepository.FindAllByOrderDateCreationDesc();
+        return cocktailRepository.findAllByOrderByDateCreationDesc();
     }
 
     // Recuperation d'un cocktail par son id

@@ -13,7 +13,7 @@ import com.cocktail.coktail_app.models.Like;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findByCocktail(Cocktail cocktail);
 
-    Optional<Like> FindByCocktailId(Long CocktailId);
+    Optional<Like> findByCocktail_Id(Long cocktailId);
 
     Long countByCocktail(Cocktail cocktail);
 

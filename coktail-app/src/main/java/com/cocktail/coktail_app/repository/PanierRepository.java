@@ -10,7 +10,7 @@ import com.cocktail.coktail_app.models.Panier;
 @Repository
 public interface PanierRepository extends JpaRepository<Panier, Long> {
     
-    Panier FindFirstByOrderByDateCreationDesc();
+    Panier findFirstByOrderByDateCreationDesc();
 
     List<Panier> findAllByOrderByDateCreationDesc();
 }

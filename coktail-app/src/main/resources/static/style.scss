@@ -1,4 +1,6 @@
-@use "./reset";
-@use "./variables";
-@use "./themes";
-@use "./utils";
+@use "./style/base/reset";
+@use "./style/base/variables";
+@use "./style/base/utils";
+@use "./style/base/themes";
+
+@use "./style/styles/index";
