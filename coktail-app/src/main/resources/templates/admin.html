@@ -52,13 +52,13 @@
                 </div>
                 
                 <div class="flex gap-12" style="margin-top: auto;">
-                    <button class="btn btn-primary" 
-                            th:onclick="'editCocktail(' + ${cocktail.id} + ')'">
+                    <button class="btn btn-primary edit-cocktail-btn" 
+                            th:data-cocktail-id="${cocktail.id}">
                         ✏️ Modifier
                     </button>
                     
-                    <button class="btn btn-danger" 
-                            th:onclick="'deleteCocktail(' + ${cocktail.id} + ')'">
+                    <button class="btn btn-danger delete-cocktail-btn" 
+                            th:data-cocktail-id="${cocktail.id}">
                         🗑️ Supprimer
                     </button>
                 </div>

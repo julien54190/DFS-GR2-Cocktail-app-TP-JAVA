@@ -81,7 +81,9 @@ public class WebController {
             return "redirect:/";
         }
         
+        List<String> panierIngredients = panierService.getCurrentIngredients();
         model.addAttribute("cocktail", cocktail);
+        model.addAttribute("ingredientCount", panierIngredients.size());
         return "cocktail-form";
     }
     

@@ -9,33 +9,34 @@
 <body>
     <div class="container p-20">
         <header class="text-center mb-30">
-            <h1 class="text-lg text-bold white mb-10">🍹 Nouveau Cocktail</h1>
-            <p class="text-sm white">Ajoutez votre cocktail préféré</p>
+            <h1 class="text-lg text-bold white mb-10" th:text="${cocktail.id != null} ? '🍹 Modifier Cocktail' : '🍹 Nouveau Cocktail'">🍹 Nouveau Cocktail</h1>
+            <p class="text-sm white" th:text="${cocktail.id != null} ? 'Modifiez votre cocktail' : 'Ajoutez votre cocktail préféré'">Ajoutez votre cocktail préféré</p>
         </header>
         
         <nav class="flex justify-content-center gap-20 mb-30">
             <a href="/" class="card">🏠 Accueil</a>
-            <a href="/nouveau" class="card active-item">➕ Nouveau</a>
+            <a href="/nouveau" class="card" th:class="${cocktail.id == null} ? 'card active-item' : 'card'">➕ Nouveau</a>
             <a href="/likes" class="card">❤️ Favoris</a>
             <a href="/panier" class="card">🛒 Panier <span th:text="${ingredientCount}">0</span></a>
             <a href="/admin/cocktails" class="card">⚙️ Admin</a>
         </nav>
         
         <div class="card">
-            <form th:action="@{/api/cocktails}" method="post" class="flex flex-col gap-20">
+            <form th:action="@{/api/cocktails}" th:method="${cocktail.id != null} ? 'put' : 'post'" class="flex flex-col gap-20">
+                <input type="hidden" name="id" th:value="${cocktail.id}" th:if="${cocktail.id != null}">
                 <div class="flex flex-col gap-12">
                     <label class="text-bold">Nom du cocktail</label>
-                    <input type="text" name="name" required>
+                    <input type="text" name="name" th:value="${cocktail.name}" required>
                 </div>
                 
                 <div class="flex flex-col gap-12">
                     <label class="text-bold">Description</label>
-                    <textarea name="description" rows="4" required></textarea>
+                    <textarea name="description" rows="4" th:text="${cocktail.description}" required></textarea>
                 </div>
                 
                 <div class="flex flex-col gap-12">
                     <label class="text-bold">URL de l'image</label>
-                    <input type="url" name="imageUrl" required>
+                    <input type="url" name="imageUrl" th:value="${cocktail.imageUrl}" required>
                 </div>
                 
                 <div class="flex flex-col gap-12">
@@ -45,11 +46,11 @@
                         <button type="button" class="btn btn-primary" onclick="addIngredient()">➕ Ajouter</button>
                     </div>
                     <div id="ingredientsList" class="flex gap-12 flex-wrap"></div>
-                    <input type="hidden" name="ingredients" id="ingredientsField" required>
+                    <input type="hidden" name="ingredients" id="ingredientsField" th:value="${cocktail.ingredients}" required>
                 </div>
                 
                 <div class="flex gap-12">
-                    <button type="submit" class="btn btn-primary">💾 Sauvegarder</button>
+                    <button type="submit" class="btn btn-primary" th:text="${cocktail.id != null} ? '💾 Modifier' : '💾 Sauvegarder'">💾 Sauvegarder</button>
                     <button type="button" class="btn btn-outline-primary" onclick="window.location.href='/'">
                         ❌ Annuler
                     </button>

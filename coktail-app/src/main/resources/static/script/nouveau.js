@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const ingredientsField = document.getElementById('ingredientsField');
     let ingredients = [];
     
+    // Charger les ingrédients existants si on modifie un cocktail
+    const existingIngredients = ingredientsField.value;
+    if (existingIngredients && existingIngredients.trim() !== '') {
+        ingredients = existingIngredients.split(',').map(ing => ing.trim()).filter(ing => ing !== '');
+        updateIngredientsDisplay();
+    }
+    
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
@@ -24,8 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         try {
-            const response = await fetch('/api/cocktails', {
-                method: 'POST',
+            const isEdit = form.querySelector('input[name="id"]') !== null;
+            const method = isEdit ? 'PUT' : 'POST';
+            const url = isEdit ? `/api/cocktails/${form.querySelector('input[name="id"]').value}` : '/api/cocktails';
+            
+            const response = await fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -33,13 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             if (response.ok) {
-                showNotification('Cocktail créé avec succès !', 'success');
+                const message = isEdit ? 'Cocktail modifié avec succès !' : 'Cocktail créé avec succès !';
+                showNotification(message, 'success');
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = '/admin/cocktails';
                 }, 1500);
             } else {
                 const error = await response.text();
-                showNotification('Erreur lors de la création: ' + error, 'error');
+                showNotification('Erreur lors de l\'opération: ' + error, 'error');
             }
         } catch (error) {
             console.error('Erreur lors de la création:', error);

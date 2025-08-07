@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fonction pour modifier un cocktail
     window.editCocktail = function(cocktailId) {
-        // Rediriger vers une page d'édition ou ouvrir un modal
-        window.location.href = `/admin/cocktails/${cocktailId}/edit`;
+        // Rediriger vers la page d'édition
+        window.location.href = `/modifier/${cocktailId}`;
     };
     
     // Fonction pour supprimer un cocktail
@@ -23,15 +23,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok) {
                 // Supprimer la carte du cocktail avec animation
-                const cocktailCard = document.querySelector(`[data-cocktail-id="${cocktailId}"]`);
-                if (cocktailCard) {
-                    cocktailCard.style.opacity = '0';
-                    cocktailCard.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        cocktailCard.remove();
-                        updateStats();
-                    }, 300);
-                }
+                const cocktailCards = document.querySelectorAll('.cocktail-card');
+                cocktailCards.forEach(card => {
+                    const deleteBtn = card.querySelector(`[data-cocktail-id="${cocktailId}"]`);
+                    if (deleteBtn) {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            card.remove();
+                            updateStats();
+                        }, 300);
+                    }
+                });
                 
                 showNotification('Cocktail supprimé avec succès', 'success');
             } else {
@@ -135,17 +138,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Ajouter les attributs data-cocktail-id pour la suppression
-    const cocktailCards = document.querySelectorAll('.admin-card');
-    cocktailCards.forEach(card => {
-        const cocktailId = card.querySelector('[onclick*="deleteCocktail"]')
-            ?.getAttribute('onclick')?.match(/deleteCocktail\((\d+)\)/)?.[1];
-        if (cocktailId) {
-            card.setAttribute('data-cocktail-id', cocktailId);
-        }
+    // Ajouter les événements de clic pour les boutons modifier et supprimer
+    const editButtons = document.querySelectorAll('.edit-cocktail-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const cocktailId = this.getAttribute('data-cocktail-id');
+            editCocktail(cocktailId);
+        });
+    });
+    
+    const deleteButtons = document.querySelectorAll('.delete-cocktail-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const cocktailId = this.getAttribute('data-cocktail-id');
+            deleteCocktail(cocktailId);
+        });
     });
     
     // Animation d'entrée pour les cartes admin
+    const cocktailCards = document.querySelectorAll('.cocktail-card');
     cocktailCards.forEach((card, index) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
