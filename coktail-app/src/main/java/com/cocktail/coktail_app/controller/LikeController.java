@@ -23,14 +23,31 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
     
-    // POST - Ajouter un like
+    // POST - Basculer un like (ajouter ou retirer)
     @PostMapping("/{cocktailId}")
-    public ResponseEntity<String> likeCocktail(@PathVariable Long cocktailId) {
-        boolean success = likeService.likeCocktail(cocktailId);
-        if (success) {
-            return ResponseEntity.ok("Cocktail liké avec succès");
+    public ResponseEntity<String> toggleLike(@PathVariable Long cocktailId) {
+        System.out.println("=== LikeController.toggleLike() appelé avec cocktailId: " + cocktailId + " ===");
+        
+        boolean isLiked = likeService.isCocktailLiked(cocktailId);
+        System.out.println("=== Cocktail " + cocktailId + " est liké: " + isLiked + " ===");
+        
+        if (isLiked) {
+            // Retirer le like
+            boolean success = likeService.unlikeCocktail(cocktailId);
+            System.out.println("=== Tentative de suppression du like: " + success + " ===");
+            if (success) {
+                return ResponseEntity.ok("Like retiré avec succès");
+            }
+            return ResponseEntity.badRequest().body("Impossible de retirer le like");
+        } else {
+            // Ajouter le like
+            boolean success = likeService.likeCocktail(cocktailId);
+            System.out.println("=== Tentative d'ajout du like: " + success + " ===");
+            if (success) {
+                return ResponseEntity.ok("Cocktail liké avec succès");
+            }
+            return ResponseEntity.badRequest().body("Impossible de liker le cocktail");
         }
-        return ResponseEntity.badRequest().body("Impossible de liker le cocktail");
     }
     
     // DELETE - Retirer un like

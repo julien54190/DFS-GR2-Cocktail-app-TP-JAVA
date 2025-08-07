@@ -36,6 +36,7 @@ public class Like {
     public Like(Cocktail cocktail, Long id) {
         this.cocktail = cocktail;
         this.id = id;
+        this.dateCreation = LocalDateTime.now();
     }
 
     public Long getId() {

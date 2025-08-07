@@ -23,18 +23,26 @@ public class LikeService {
 
     // Ajouter un like à un cocktail
     public boolean likeCocktail(Long cocktailId) {
+        System.out.println("=== LikeService.likeCocktail() appelé avec cocktailId: " + cocktailId + " ===");
+        
         Optional<Cocktail> optionalCocktail = cocktailRepository.findById(cocktailId);
         if (optionalCocktail.isPresent()) {
             Cocktail cocktail = optionalCocktail.get();
+            System.out.println("=== Cocktail trouvé: " + cocktail.getName() + " ===");
 
             Optional<Like> existingLike = likeRepository.findByCocktail_Id(cocktailId);
             if (existingLike.isPresent()) {
+                System.out.println("=== Like déjà existant pour ce cocktail ===");
                 return false;
             }
-            Like like = new Like(cocktail, cocktailId);
+            
+            Like like = new Like();
+            like.setCocktail(cocktail);
             likeRepository.save(like);
+            System.out.println("=== Like créé avec succès ===");
             return true;
         }
+        System.out.println("=== Cocktail non trouvé ===");
         return false;
     }
 
