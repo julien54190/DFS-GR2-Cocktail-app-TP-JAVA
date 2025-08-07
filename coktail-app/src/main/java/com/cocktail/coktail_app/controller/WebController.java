@@ -36,6 +36,7 @@ public class WebController {
         model.addAttribute("cocktails", cocktails);
         model.addAttribute("likedIds", likedIds);
         model.addAttribute("panierIngredients", panierIngredients);
+        model.addAttribute("ingredientCount", panierIngredients.size());
         
         return "index";
     }
@@ -64,7 +65,9 @@ public class WebController {
     @GetMapping("/nouveau")
     public String newCocktailForm(Model model) {
         System.out.println("=== WebController.newCocktailForm() appelé ===");
+        List<String> panierIngredients = panierService.getCurrentIngredients();
         model.addAttribute("cocktail", new Cocktail());
+        model.addAttribute("ingredientCount", panierIngredients.size());
         return "cocktail-form";
     }
     
@@ -96,8 +99,22 @@ public class WebController {
     public String likedCocktails(Model model) {
         System.out.println("=== WebController.likedCocktails() appelé ===");
         List<Cocktail> likedCocktails = likeService.getLikedCocktails();
+        List<String> panierIngredients = panierService.getCurrentIngredients();
+        
         model.addAttribute("cocktails", likedCocktails);
-
+        model.addAttribute("ingredientCount", panierIngredients.size());
         return "likes";
+    }
+    
+    // Page d'administration
+    @GetMapping("/admin/cocktails")
+    public String admin(Model model) {
+        System.out.println("=== WebController.admin() appelé ===");
+        List<Cocktail> allCocktails = cocktailService.getAllCocktails();
+        List<String> panierIngredients = panierService.getCurrentIngredients();
+        
+        model.addAttribute("cocktails", allCocktails);
+        model.addAttribute("ingredientCount", panierIngredients.size());
+        return "admin";
     }
 } 

@@ -24,6 +24,10 @@
     justify-content: center;
 }
 
+.justify-content-between {
+    justify-content: space-between;
+}
+
 .align-items-center {
     align-items: center;
 }
@@ -75,6 +79,10 @@
 
 .mb-30 {
     margin-bottom: 30px;
+}
+
+.mt-30 {
+    margin-top: 30px;
 }
 
 .p-12 {
@@ -136,6 +144,14 @@
 
 .text-center {
     text-align: center;
+}
+
+.white{
+    color: white;
+}
+
+.bkg-light {
+    background-color: var(--light);
 }
 
 

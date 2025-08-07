@@ -77,5 +77,10 @@ public class LikeService {
             }
             return 0;
         }
+        
+        // Compter le total des likes
+        public long getTotalLikes() {
+            return likeRepository.count();
+        }
 
 }

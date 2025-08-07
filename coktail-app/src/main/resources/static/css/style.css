@@ -47,6 +47,7 @@ a:hover {
   --success: #22c55e;
   --danger: #dc2626;
   --danger-dark: #921515;
+  --secondary: #f3e8ff;
   --border: 1px solid var(--gray-100);
   --radius: 24px;
 }
@@ -75,6 +76,10 @@ a:hover {
 
 .justify-content-center {
   justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
 }
 
 .align-items-center {
@@ -127,6 +132,10 @@ a:hover {
 
 .mb-30 {
   margin-bottom: 30px;
+}
+
+.mt-30 {
+  margin-top: 30px;
 }
 
 .p-12 {
@@ -190,6 +199,14 @@ a:hover {
   text-align: center;
 }
 
+.white {
+  color: white;
+}
+
+.bkg-light {
+  background-color: var(--light);
+}
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -201,6 +218,13 @@ body {
   padding: 24px;
   border-radius: var(--radius);
   border: var(--border);
+  color: white;
+  text-decoration: none;
+}
+
+.cocktail-card {
+  background: white;
+  color: var(--gray-700);
 }
 
 .radius {
@@ -246,6 +270,26 @@ body {
   background-color: white;
 }
 
+.btn-like {
+  background-color: var(--secondary);
+  color: var(--danger);
+  border: 2px solid var(--danger);
+  font-size: 18px;
+  padding: 8px 12px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.btn-liked {
+  background-color: var(--secondary);
+  color: var(--danger);
+  border: 2px solid var(--danger);
+  font-size: 18px;
+  padding: 8px 12px;
+  min-width: 40px;
+  text-align: center;
+}
+
 .btn-primary:hover {
   background-color: var(--dark);
 }
@@ -271,6 +315,11 @@ input, textarea {
 
 button[disabled] {
   opacity: 0.5;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /*# sourceMappingURL=style.css.map */

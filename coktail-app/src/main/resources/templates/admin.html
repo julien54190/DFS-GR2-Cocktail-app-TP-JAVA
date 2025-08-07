@@ -4,22 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <title>Cocktail App</title>
+    <title>Administration</title>
 </head>
 <body>
     <div class="container p-20">
         <header class="text-center mb-30">
-            <h1 class="text-lg text-bold white mb-10">🍹 Cocktails App</h1>
-            <p class="text-sm white">Découvrez et gérez vos cocktails préférés</p>
+            <h1 class="text-lg text-bold white mb-10">⚙️ Administration</h1>
+            <p class="text-sm white">Gérez vos cocktails</p>
         </header>
         
         <nav class="flex justify-content-center gap-20 mb-30">
-            <a href="/" class="card active-item">🏠 Accueil</a>
+            <a href="/" class="card">🏠 Accueil</a>
             <a href="/nouveau" class="card">➕ Nouveau</a>
             <a href="/likes" class="card">❤️ Favoris</a>
             <a href="/panier" class="card">🛒 Panier <span th:text="${ingredientCount}">0</span></a>
-            <a href="/admin/cocktails" class="card">⚙️ Admin</a>
+            <a href="/admin/cocktails" class="card active-item">⚙️ Admin</a>
         </nav>
+        
+        <div class="flex gap-12 justify-content-center mb-30">
+            <button class="btn btn-primary" onclick="window.location.href='/nouveau'">
+                ➕ Ajouter un cocktail
+            </button>
+        </div>
         
         <div th:if="${#lists.isEmpty(cocktails)}" class="text-center card bkg-light">
             <div class="text-lg mb-20">🍹</div>
@@ -47,22 +53,19 @@
                 
                 <div class="flex gap-12" style="margin-top: auto;">
                     <button class="btn btn-primary" 
-                            data-action="add-to-panier"
-                            th:data-cocktail-id="${cocktail.id}">
-                        🛒 Panier
+                            th:onclick="'editCocktail(' + ${cocktail.id} + ')'">
+                        ✏️ Modifier
                     </button>
                     
-                    <button th:class="${likedIds.contains(cocktail.id)} ? 'btn btn-liked' : 'btn btn-like'"
-                            data-action="toggle-like"
-                            th:data-cocktail-id="${cocktail.id}"
-                            th:text="${likedIds.contains(cocktail.id)} ? '❤️' : '🤍'">
-                        🤍
+                    <button class="btn btn-danger" 
+                            th:onclick="'deleteCocktail(' + ${cocktail.id} + ')'">
+                        🗑️ Supprimer
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script th:src="@{/script/index.js}"></script>
+    <script th:src="@{/script/admin.js}"></script>
 </body>
-</html>
+</html> 
